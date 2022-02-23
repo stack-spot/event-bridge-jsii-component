@@ -1,0 +1,58 @@
+{
+  "name": "@stackspot/cdk-env-eventbridge",
+  "version": "0.1.0",
+  "description": "Component to create a event bridge and add rules and targets.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "jsii --verbose --fail-on-warnings",
+    "build:watch": "npm run build -- --watch",
+    "lint": "eslint --ext=ts --max-warnings=0 .",
+    "lint:fix": "npm run lint -- --fix",
+    "package:dotnet": "jsii-pacmak --target=dotnet --verbose --validate-assemblies",
+    "package:js": "jsii-pacmak --target=js --verbose --validate-assemblies",
+    "test": "jest",
+    "test:watch": "npm test -- --watch"
+  },
+  "author": {
+    "name": "StackSpot",
+    "email": "contact@stackspot.com"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.10",
+    "@types/node": "10.17.27",
+    "@typescript-eslint/eslint-plugin": "^5.12.1",
+    "@typescript-eslint/parser": "^5.12.1",
+    "aws-cdk-lib": "2.13.0",
+    "constructs": "^10.0.0",
+    "eslint": "^8.9.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "jest": "^26.4.2",
+    "jsii": "^1.54.0",
+    "jsii-pacmak": "^1.54.0",
+    "ts-jest": "^26.2.0",
+    "typescript": "~3.9.7"
+  },
+  "peerDependencies": {
+    "aws-cdk-lib": "2.13.0",
+    "constructs": "^10.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stack-spot/eventbridge-env-jsii-component.git"
+  },
+  "license": "MIT",
+  "stability": "stable",
+  "jsii": {
+    "outdir": "dist",
+    "versionFormat": "full",
+    "targets": {
+      "dotnet": {
+        "namespace": "StackSpot.Env.Eventbridge",
+        "packageId": "StackSpot.Env.Eventbridge",
+        "iconUrl": "https://www.nuget.org/profiles/stackspot/avatar"
+      }
+    }
+  }
+}
