@@ -1,7 +1,7 @@
 import { Construct } from 'constructs';
 import { EventBus, EventPattern, Rule } from 'aws-cdk-lib/aws-events';
-import * as target from 'aws-cdk-lib/aws-events-targets';
-import { Function } from 'aws-cdk-lib/aws-lambda';
+import * as targets from 'aws-cdk-lib/aws-events-targets';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
 
 export interface EventbridgeEnvJsiiComponentProps {
   readonly busName: string,
@@ -15,18 +15,17 @@ export interface RuleProps {
 }
 
 export class EventbridgeEnvJsiiComponent extends Construct {
-  public readonly bus:EventBus;
-
   constructor(scope: Construct, id: string, props:EventbridgeEnvJsiiComponentProps) {
     super(scope, id);
-    this.bus = new EventBus(this, 'DestinedEventBus', {
+    new EventBus(this, 'eventbus-'.concat(props.busName), {
       eventBusName: props.busName,
     });
   }
 
-  public addRule(props: RuleProps): Rule {
-    return new Rule(this, 'Rule', {
-      eventBus: this.bus,
+  public static addRule(scope: Construct, busArn:string, props: RuleProps): Rule {
+    const bus = EventBus.fromEventBusArn(scope, 'busRule-'.concat(props.ruleName), busArn);
+    return new Rule(scope, 'rule-'.concat(props.ruleName), {
+      eventBus: bus,
       description: props.description,
       eventPattern: props.eventPattern,
       ruleName: props.ruleName,
@@ -34,11 +33,7 @@ export class EventbridgeEnvJsiiComponent extends Construct {
     });
   }
 
-  public addLambdaTarget(arn:string, rule:Rule) : void {
-    rule.addTarget(new target.LambdaFunction(Function.fromFunctionArn(
-      this,
-      'lambda-target',
-      arn,
-    )));
+  public static addLambdaTarget(rule:Rule, fn:lambda.IFunction) : void {
+    rule.addTarget(new targets.LambdaFunction(fn));
   }
 }
