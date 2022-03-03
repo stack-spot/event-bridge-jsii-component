@@ -5,9 +5,11 @@
 .cdk.staging
 cdk.out
 
-
 # Exclude jsii outdir
 dist
 
 # Include .jsii
 !.jsii
+
+# Jest
+coverage

@@ -15,9 +15,11 @@ export interface RuleProps {
 }
 
 export class EventbridgeEnvJsiiComponent extends Construct {
+  public readonly bus: EventBus;
+
   constructor(scope: Construct, id: string, props:EventbridgeEnvJsiiComponentProps) {
     super(scope, id);
-    new EventBus(this, 'eventbus-'.concat(props.busName), {
+    this.bus = new EventBus(this, 'eventbus-'.concat(props.busName), {
       eventBusName: props.busName,
     });
   }
