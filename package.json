@@ -1,6 +1,6 @@
 {
   "name": "@stackspot/cdk-env-eventbridge",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Component to create a event bridge and add rules and targets.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -42,7 +42,7 @@
     "type": "git",
     "url": "https://github.com/stack-spot/eventbridge-env-jsii-component.git"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "jest": {
     "collectCoverage": true,
     "coverageThreshold": {
