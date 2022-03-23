@@ -1,6 +1,6 @@
 {
   "name": "@stackspot/cdk-env-eventbridge",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Component to create a event bridge and add rules and targets.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -72,5 +72,8 @@
         "iconUrl": "https://www.nuget.org/profiles/stackspot/avatar"
       }
     }
+  },
+  "dependencies": {
+    "@stackspot/cdk-core": "^0.1.3"
   }
 }
