@@ -1,1 +1,1 @@
-export * from './eventbridge';
+export * from './event-bridge';

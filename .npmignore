@@ -14,3 +14,8 @@ coverage
 # jsii
 dist
 !.jsii
+
+# STK CLI
+.template
+stages
+stk.yaml

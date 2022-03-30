@@ -1,24 +1,25 @@
 {
-  "name": "@stackspot/cdk-env-eventbridge",
-  "version": "0.1.6",
-  "description": "Component to create a event bridge and add rules and targets.",
+  "name": "@stackspot/cdk-event-bridge",
+  "version": "0.1.0",
+  "description": "Component to create an event bridge and add rules and targets.",
   "keywords": [
     "aws",
     "cdk",
-    "eventbridge"
+    "event-bridge"
   ],
   "homepage": "https://www.stackspot.com/studios/Z2l0aHViOjpzdGFjay1zcG90L3NreW5ldC1zdHVkaW8=",
-  "bugs": "https://github.com/stack-spot/eventbridge-env-jsii-component/issues",
+  "bugs": "https://github.com/stack-spot/event-bridge-jsii-component/issues",
   "license": "Apache-2.0",
   "author": {
     "name": "StackSpot",
-    "email": "contact@stackspot.com"
+    "email": "contact@stackspot.com",
+    "url": "https://www.stackspot.com"
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/stack-spot/eventbridge-env-jsii-component.git"
+    "url": "https://github.com/stack-spot/event-bridge-jsii-component.git"
   },
   "scripts": {
     "build": "jsii --verbose --fail-on-warnings",
@@ -51,7 +52,7 @@
     "jest": "^27.0.0",
     "jsii": "^1.55.0",
     "jsii-pacmak": "^1.55.0",
-    "prettier": "^2.6.1",
+    "prettier": "^2.6.0",
     "ts-jest": "^27.0.0",
     "typescript": "~4.6.0"
   },
@@ -87,8 +88,8 @@
     "versionFormat": "full",
     "targets": {
       "dotnet": {
-        "namespace": "StackSpot.Env.Eventbridge",
-        "packageId": "StackSpot.Env.Eventbridge",
+        "namespace": "StackSpot.Cdk.EventBridge",
+        "packageId": "StackSpot.Cdk.EventBridge",
         "iconUrl": "https://www.nuget.org/profiles/stackspot/avatar"
       }
     }

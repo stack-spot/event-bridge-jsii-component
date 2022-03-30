@@ -14,3 +14,8 @@ dist
 .jsii
 tsconfig.json
 tsconfig.tsbuildinfo
+
+# STK CLI
+.template
+stages
+stk.yaml

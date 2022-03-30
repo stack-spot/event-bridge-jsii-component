@@ -1,4 +1,4 @@
-# eventbridge-env-jsii-component
+# Event Bridge
 
 [![aws-cdk][badge-aws-cdk]][aws-cdk]
 [![jsii][badge-jsii]][jsii]
@@ -8,7 +8,7 @@
 [![nuget-downloads][badge-nuget-downloads]][nuget-package]
 [![license][badge-license]][license]
 
-Component to create a event bridge and add rules and targets.
+Component to create an event bridge and add rules and targets.
 
 ## How to use
 
@@ -35,14 +35,14 @@ Not yet supported.
 Install the dependency:
 
 ```sh
-npm install --save @stackspot/cdk-env-eventbridge
+npm install --save @stackspot/cdk-event-bridge
 ```
 
 Import the construct into your project, for example:
 
 ```javascript
 const { Stack } = require('aws-cdk-lib');
-const { EventBridge } = require('@stackspot/cdk-env-eventbridge');
+const { EventBridge } = require('@stackspot/cdk-event-bridge');
 
 class MyStack extends Stack {
   constructor(scope, id, props) {
@@ -64,7 +64,7 @@ Not yet supported.
 Install the dependency:
 
 ```sh
-npm install --save @stackspot/cdk-env-eventbridge
+npm install --save @stackspot/cdk-event-bridge
 ```
 
 Import the construct into your project, for example:
@@ -72,7 +72,7 @@ Import the construct into your project, for example:
 ```typescript
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { EventBridge } from '@stackspot/cdk-env-eventbridge';
+import { EventBridge } from '@stackspot/cdk-event-bridge';
 
 export class MyStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -214,7 +214,7 @@ having to instantiate the class.
 ### Setup
 
 ```sh
-cd eventbridge-env-jsii-component
+cd event-bridge-jsii-component
 npm install
 ```
 
@@ -224,17 +224,17 @@ npm install
 [aws-cdk-events-event-pattern]: https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_events.EventPattern.html
 [aws-cdk-events-rule]: https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_events.Rule.html
 [aws-cdk-lambda-ifunction]: https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.IFunction.html
-[badge-aws-cdk]: https://img.shields.io/github/package-json/dependency-version/stack-spot/eventbridge-env-jsii-component/dev/aws-cdk-lib
-[badge-jsii]: https://img.shields.io/github/package-json/dependency-version/stack-spot/eventbridge-env-jsii-component/dev/jsii
-[badge-license]: https://img.shields.io/github/license/stack-spot/eventbridge-env-jsii-component
-[badge-npm-downloads]: https://img.shields.io/npm/dt/@stackspot/cdk-env-eventbridge?label=downloads%20%28npm%29
-[badge-npm-version]: https://img.shields.io/npm/v/@stackspot/cdk-env-eventbridge
-[badge-nuget-downloads]: https://img.shields.io/nuget/dt/StackSpot.Env.Eventbridge?label=downloads%20%28NuGet%29
-[badge-nuget-version]: https://img.shields.io/nuget/vpre/StackSpot.Env.Eventbridge
+[badge-aws-cdk]: https://img.shields.io/github/package-json/dependency-version/stack-spot/event-bridge-jsii-component/dev/aws-cdk-lib
+[badge-jsii]: https://img.shields.io/github/package-json/dependency-version/stack-spot/event-bridge-jsii-component/dev/jsii
+[badge-license]: https://img.shields.io/github/license/stack-spot/event-bridge-jsii-component
+[badge-npm-downloads]: https://img.shields.io/npm/dt/@stackspot/cdk-event-bridge?label=downloads%20%28npm%29
+[badge-npm-version]: https://img.shields.io/npm/v/@stackspot/cdk-event-bridge
+[badge-nuget-downloads]: https://img.shields.io/nuget/dt/StackSpot.Cdk.EventBridge?label=downloads%20%28NuGet%29
+[badge-nuget-version]: https://img.shields.io/nuget/vpre/StackSpot.Cdk.EventBridge
 [editorconfig]: https://editorconfig.org/
 [git]: https://git-scm.com/downloads
 [jsii]: https://aws.github.io/jsii
-[license]: https://github.com/stack-spot/eventbridge-env-jsii-component/blob/main/LICENSE
+[license]: https://github.com/stack-spot/event-bridge-jsii-component/blob/main/LICENSE
 [nodejs]: https://nodejs.org/download
-[npm-package]: https://www.npmjs.com/package/@stackspot/cdk-env-eventbridge
-[nuget-package]: https://www.nuget.org/packages/StackSpot.Env.Eventbridge
+[npm-package]: https://www.npmjs.com/package/@stackspot/cdk-event-bridge
+[nuget-package]: https://www.nuget.org/packages/StackSpot.Cdk.EventBridge
