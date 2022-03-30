@@ -1,168 +1,167 @@
-import * as cdk from 'aws-cdk-lib';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
+import { App, Stack } from 'aws-cdk-lib';
+import { Code, Function, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { Template } from 'aws-cdk-lib/assertions';
-import * as path from 'path';
-import * as events from '../lib/index';
+import { EventBridge } from '../lib/index';
 
-test('Event bus Created', () => {
-  const app = new cdk.App();
-  const stack = new cdk.Stack(app, 'TestStack');
-  // WHEN
-  new events.EventBridge(stack, 'testStack', { busName: 'testBus' });
-  // THEN
-  const template = Template.fromStack(stack);
+const lambdaFunction = `exports.handler = async (event: any) => {
+  JSON.stringify(event, null, 2);
+};`;
 
-  template.hasResourceProperties('AWS::Events::EventBus', {});
-});
+describe('EventBridge', () => {
+  test('Event bus Created', () => {
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
+    new EventBridge(stack, 'testStack', { busName: 'testBus' });
+    const template = Template.fromStack(stack);
 
-test('event rule added to event bus', () => {
-  const app = new cdk.App();
-  const stack = new cdk.Stack(app, 'TestStack');
-  // WHEN
-  const bus = new events.EventBridge(stack, 'testStack', { busName: 'testBus' });
-  bus.addRule(stack, {
-    ruleName: 'succes-rule',
-    eventPattern: {
-      detail: {
-        requestContext: {
-          condition: ['Success'],
-        },
-        responsePayload: {
-          source: ['cdkpatterns.the-destined-lambda'],
-          action: ['message'],
+    template.hasResourceProperties('AWS::Events::EventBus', {});
+  });
+
+  test('event rule added to event bus', () => {
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
+    const bus = new EventBridge(stack, 'testStack', {
+      busName: 'testBus',
+    });
+    bus.addRule(stack, {
+      ruleName: 'succes-rule',
+      eventPattern: {
+        detail: {
+          requestContext: {
+            condition: ['Success'],
+          },
+          responsePayload: {
+            source: ['cdkpatterns.the-destined-lambda'],
+            action: ['message'],
+          },
         },
       },
-    },
+    });
+    const template = Template.fromStack(stack);
+
+    template.hasResourceProperties('AWS::Events::EventBus', {});
+    template.hasResourceProperties('AWS::Events::Rule', {});
   });
-  // THEN
-  const template = Template.fromStack(stack);
 
-  template.hasResourceProperties('AWS::Events::EventBus', {});
-  template.hasResourceProperties('AWS::Events::Rule', {});
-});
-
-test('event rule with lambda target added to event bus', () => {
-  const app = new cdk.App();
-  const stack = new cdk.Stack(app, 'TestStack');
-  // WHEN
-  const bus = new events.EventBridge(stack, 'testStack', { busName: 'testBus' });
-  const rule = bus.addRule(stack, {
-    ruleName: 'succes-rule',
-    eventPattern: {
-      detail: {
-        requestContext: {
-          condition: ['Success'],
-        },
-        responsePayload: {
-          source: ['cdkpatterns.the-destined-lambda'],
-          action: ['message'],
+  test('event rule with lambda target added to event bus', () => {
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
+    const bus = new EventBridge(stack, 'testStack', {
+      busName: 'testBus',
+    });
+    const rule = bus.addRule(stack, {
+      ruleName: 'succes-rule',
+      eventPattern: {
+        detail: {
+          requestContext: {
+            condition: ['Success'],
+          },
+          responsePayload: {
+            source: ['cdkpatterns.the-destined-lambda'],
+            action: ['message'],
+          },
         },
       },
-    },
+    });
+
+    const fn = new Function(stack, 'success', {
+      runtime: Runtime.NODEJS_12_X,
+      handler: 'index.handler',
+      code: Code.fromInline(lambdaFunction),
+    });
+
+    EventBridge.addLambdaTarget(rule, fn);
+
+    const template = Template.fromStack(stack);
+
+    template.hasResourceProperties('AWS::Events::EventBus', {});
+    template.hasResourceProperties('AWS::Events::Rule', {});
+    template.hasResourceProperties('AWS::Lambda::Function', {});
   });
 
-  const fn = new lambda.Function(stack, 'success', {
-    runtime: lambda.Runtime.NODEJS_12_X,
-    handler: 'index.handler',
-    code: lambda.Code.fromAsset(path.join(__dirname, 'lambda-code')),
-  });
-
-  events.EventBridge.addLambdaTarget(rule, fn);
-
-  // THEN
-  const template = Template.fromStack(stack);
-
-  template.hasResourceProperties('AWS::Events::EventBus', {});
-  template.hasResourceProperties('AWS::Events::Rule', {});
-  template.hasResourceProperties('AWS::Lambda::Function', {});
-});
-
-test('disabled event rule with lambda target added to event bus', () => {
-  const app = new cdk.App();
-  const stack = new cdk.Stack(app, 'TestStack');
-  // WHEN
-  const bus = new events.EventBridge(stack, 'testStack', { busName: 'testBus' });
-  const rule = bus.addRule(stack, {
-    ruleName: 'succes-rule',
-    enabled: false,
-    eventPattern: {
-      detail: {
-        requestContext: {
-          condition: ['Success'],
-        },
-        responsePayload: {
-          source: ['cdkpatterns.the-destined-lambda'],
-          action: ['message'],
-        },
-      },
-    },
-  });
-
-  const fn = new lambda.Function(stack, 'success', {
-    runtime: lambda.Runtime.NODEJS_12_X,
-    handler: 'index.handler',
-    code: lambda.Code.fromAsset(path.join(__dirname, 'lambda-code')),
-  });
-
-  events.EventBridge.addLambdaTarget(rule, fn);
-
-  // THEN
-  const template = Template.fromStack(stack);
-
-  template.hasResourceProperties('AWS::Events::EventBus', {});
-  template.hasResourceProperties('AWS::Events::Rule', {});
-  template.hasResourceProperties('AWS::Lambda::Function', {});
-});
-
-test('event rule added to event bus from another stack', () => {
-  const app = new cdk.App();
-  const stack = new cdk.Stack(app, 'TestStack');
-  // WHEN
-
-  events.EventBridge.addRuleFromStackBus(stack, 'anotherStack', 'anotherBus', {
-    ruleName: 'succes-rule',
-    eventPattern: {
-      detail: {
-        requestContext: {
-          condition: ['Success'],
-        },
-        responsePayload: {
-          source: ['cdkpatterns.the-destined-lambda'],
-          action: ['message'],
+  test('disabled event rule with lambda target added to event bus', () => {
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
+    const bus = new EventBridge(stack, 'testStack', {
+      busName: 'testBus',
+    });
+    const rule = bus.addRule(stack, {
+      ruleName: 'succes-rule',
+      enabled: false,
+      eventPattern: {
+        detail: {
+          requestContext: {
+            condition: ['Success'],
+          },
+          responsePayload: {
+            source: ['cdkpatterns.the-destined-lambda'],
+            action: ['message'],
+          },
         },
       },
-    },
+    });
+
+    const fn = new Function(stack, 'success', {
+      runtime: Runtime.NODEJS_12_X,
+      handler: 'index.handler',
+      code: Code.fromInline(lambdaFunction),
+    });
+
+    EventBridge.addLambdaTarget(rule, fn);
+
+    const template = Template.fromStack(stack);
+
+    template.hasResourceProperties('AWS::Events::EventBus', {});
+    template.hasResourceProperties('AWS::Events::Rule', {});
+    template.hasResourceProperties('AWS::Lambda::Function', {});
   });
-  // THEN
-  const template = Template.fromStack(stack);
 
-  template.hasResourceProperties('AWS::Events::Rule', {});
-  template.hasResourceProperties('AWS::SSM::Parameter', {});
-});
+  test('event rule added to event bus from another stack', () => {
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
 
-test('disabled event rule added to event bus from another stack', () => {
-  const app = new cdk.App();
-  const stack = new cdk.Stack(app, 'TestStack');
-  // WHEN
-
-  events.EventBridge.addRuleFromStackBus(stack, 'anotherStack', 'anotherBus', {
-    ruleName: 'succes-rule',
-    enabled: false,
-    eventPattern: {
-      detail: {
-        requestContext: {
-          condition: ['Success'],
-        },
-        responsePayload: {
-          source: ['cdkpatterns.the-destined-lambda'],
-          action: ['message'],
+    EventBridge.addRuleFromStackBus(stack, 'anotherStack', 'anotherBus', {
+      ruleName: 'succes-rule',
+      eventPattern: {
+        detail: {
+          requestContext: {
+            condition: ['Success'],
+          },
+          responsePayload: {
+            source: ['cdkpatterns.the-destined-lambda'],
+            action: ['message'],
+          },
         },
       },
-    },
-  });
-  // THEN
-  const template = Template.fromStack(stack);
+    });
+    const template = Template.fromStack(stack);
 
-  template.hasResourceProperties('AWS::Events::Rule', {});
-  template.hasResourceProperties('AWS::SSM::Parameter', {});
+    template.hasResourceProperties('AWS::Events::Rule', {});
+    template.hasResourceProperties('AWS::SSM::Parameter', {});
+  });
+
+  test('disabled event rule added to event bus from another stack', () => {
+    const app = new App();
+    const stack = new Stack(app, 'TestStack');
+
+    EventBridge.addRuleFromStackBus(stack, 'anotherStack', 'anotherBus', {
+      ruleName: 'succes-rule',
+      enabled: false,
+      eventPattern: {
+        detail: {
+          requestContext: {
+            condition: ['Success'],
+          },
+          responsePayload: {
+            source: ['cdkpatterns.the-destined-lambda'],
+            action: ['message'],
+          },
+        },
+      },
+    });
+    const template = Template.fromStack(stack);
+
+    template.hasResourceProperties('AWS::Events::Rule', {});
+    template.hasResourceProperties('AWS::SSM::Parameter', {});
+  });
 });

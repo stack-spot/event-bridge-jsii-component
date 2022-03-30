@@ -5,11 +5,12 @@
 .cdk.staging
 cdk.out
 
-# Exclude jsii outdir
-dist
-
-# Include .jsii
-!.jsii
+# GitHub
+.github/workflows
 
 # Jest
 coverage
+
+# jsii
+dist
+!.jsii
