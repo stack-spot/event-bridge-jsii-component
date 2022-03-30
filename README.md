@@ -16,7 +16,32 @@ Below are all languages supported by the AWS CDK.
 
 ### C#
 
-Not yet supported.
+Install the dependency:
+
+```sh
+dotnet add package StackSpot.Cdk.EventBridge
+```
+
+Import the construct into your project, for example:
+
+```csharp
+using Amazon.CDK;
+using Constructs;
+using StackSpot.Cdk.EventBridge;
+
+namespace MyStack
+{
+    public class MyStack : Stack
+    {
+        internal MyStack(Construct scope, string id, IStackProps props = null) : base(scope, id, props)
+        {
+            new EventBridge(this, "MyEventBridge", new EventBusCreateProps{
+                BusName = "my-bus"
+            });
+        }
+    }
+}
+```
 
 ### F#
 
