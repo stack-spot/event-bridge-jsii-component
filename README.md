@@ -142,13 +142,13 @@ export class MyStack extends Stack {
 
 ### addRule(scope, props)
 
-```
+```typescript
 public addRule(scope: Construct, props: RuleCreateProps): Rule
 ```
 
 _Parameters_
 
-- **scope** [Constructor][aws-cdk-construct]
+- **scope** [Construct][aws-cdk-construct]
 - **props** [RuleCreateProps](#rulecreateprops)
 
 _Returns_
@@ -163,7 +163,7 @@ event bus.
 
 ### static addRuleFromStackBus(scope, stackName, busName, props)
 
-```
+```typescript
 public static addRuleFromStackBus(scope: Construct, stackName: string, busName: string, props: RuleCreateProps): Rule
 ```
 
@@ -185,7 +185,7 @@ instantiate the class.
 
 ### static addLambdaTarget(rule, fn)
 
-```
+```typescript
 public static addLambdaTarget(rule: Rule, fn: IFunction): void
 ```
 

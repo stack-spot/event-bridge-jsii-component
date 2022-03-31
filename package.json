@@ -1,6 +1,6 @@
 {
   "name": "@stackspot/cdk-event-bridge",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Component to create an event bridge and add rules and targets.",
   "keywords": [
     "aws",
